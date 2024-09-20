@@ -9,11 +9,11 @@ public static class Program
 {
     public static void Main()
     {
-        var person = new Person(new DateOnly(2004, 08, 07), "Stepan", "Golub");
+        var person = new Person(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
 
         Console.WriteLine(person.GetFullName());
         
-        var employee = new Employee(new DateOnly(2004, 08, 07), "Stepan", "Golub");
+        var employee = new Employee(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
         
         ChangeContract(employee);
 
@@ -27,13 +27,11 @@ public static class Program
 
         Console.WriteLine(currency.GetInfo());
         
-        var client = new Client(new DateOnly(2004, 08, 07), "Stepan", "Golub");
+        var client = new Client(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
 
         var emp2 = BankService.Promote(client);
 
         Console.WriteLine(emp2.GetType());
-
-        TestBoxUnbox();
     }
 
     // Employee - ссылочный тип, в метод передаётся ссылка. При изменении внутри меняется и там, откуда передали.
@@ -47,35 +45,5 @@ public static class Program
     {
         currency.Code = code;
         currency.Name = name;
-    }
-
-    private static void TestBoxUnbox()
-    {
-        var sw = new Stopwatch();
-
-        var arr = new ArrayList();
-        
-        sw.Start();
-
-        for (var i = 0; i < 100_000; i++)
-        {
-            arr.Add(i);
-        }
-        
-        sw.Stop();
-        Console.WriteLine($"На упаковку ушло: {sw.ElapsedTicks} тиков");
-        sw.Reset();
-        
-        sw.Start();
-
-        for (var i = 0; i < 100_000; i++)
-        {
-            var num = (int)arr[i]!;
-            var num2 = num * 10;
-        }
-        
-        sw.Stop();
-
-        Console.WriteLine($"На распаковку ушло: {sw.ElapsedTicks} тиков");
     }
 }

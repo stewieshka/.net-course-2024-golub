@@ -5,6 +5,9 @@ namespace BankSystem.Domain;
 /// </summary>
 public class Client : Person
 {
-    public Client(DateOnly birthDay, string firstName, string lastName, string? middleName = null) 
-        : base(birthDay, firstName, lastName, middleName) {}
+    // Для Bogus
+    public Client() {}
+    
+    public Client(DateOnly birthDay, string phoneNumber, string firstName, string lastName, string? middleName = null) 
+        : base(birthDay, phoneNumber, firstName, lastName, middleName) {}
 }
