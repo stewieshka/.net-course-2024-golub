@@ -9,14 +9,12 @@ public static class BankService
 
     public static Employee Promote(Client client)
     {
-        // Закомментированное решение вызывает исключение
-        
-        // Person person = client;
-        //
-        // Employee employee = (Employee)person;
-        //
-        // return employee;
-        
-        return new Employee(client.BirthDay, client.FirstName, client.LastName, client.MiddleName);
+        return new Employee
+        {
+            BirthDay = client.BirthDay,
+            FirstName = client.FirstName,
+            LastName = client.LastName,
+            MiddleName = client.MiddleName
+        };
     }
 }

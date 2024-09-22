@@ -1,9 +1,9 @@
 namespace BankSystem.Domain;
 
-public struct Currency(string code, string name)
+public struct Currency
 {
-    public string Code { get; set; } = code;
-    public string Name { get; set; } = name;
+    public string Code { get; set; }
+    public string Name { get; set; }
 
     public string GetInfo()
         => $"{Code} | {Name}";
