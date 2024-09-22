@@ -9,17 +9,33 @@ public static class Program
 {
     public static void Main()
     {
-        var person = new Person(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
+        var person = new Person
+        {
+            BirthDay = new DateOnly(2004, 08, 07),
+            FirstName = "Stepan",
+            LastName = "Golub",
+            PhoneNumber = "Test"
+        };
 
         Console.WriteLine(person.GetFullName());
         
-        var employee = new Employee(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
+        var employee = new Employee
+        {
+            BirthDay = new DateOnly(2004, 08, 07),
+            FirstName = "Stepan",
+            LastName = "Golub",
+            PhoneNumber = "Test"
+        };
         
         ChangeContract(employee);
 
         Console.WriteLine(employee.Contract);
 
-        var currency = new Currency("USD", "US Dollar");
+        var currency = new Currency
+        {
+            Code = "USD",
+            Name = "Dollar"
+        };
 
         Console.WriteLine(currency.GetInfo());
         
@@ -27,7 +43,13 @@ public static class Program
 
         Console.WriteLine(currency.GetInfo());
         
-        var client = new Client(new DateOnly(2004, 08, 07), "testphone", "Stepan", "Golub");
+        var client = new Client
+        {
+            BirthDay = new DateOnly(2004, 08, 07),
+            FirstName = "Stepan",
+            LastName = "Golub",
+            PhoneNumber = "Test"
+        };
 
         var emp2 = BankService.Promote(client);
 
