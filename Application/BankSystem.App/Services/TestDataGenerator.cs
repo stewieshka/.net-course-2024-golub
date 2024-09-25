@@ -30,23 +30,16 @@ public static class TestDataGenerator
 
     public static Dictionary<string, Client> GenerateClientsDictionary(int amount)
     {
-        var dict = new Dictionary<string, Client>();
+        var faker = new Faker<Client>()
+            .RuleFor(a => a.FirstName, b => b.Name.FirstName())
+            .RuleFor(a => a.LastName, b => b.Name.LastName())
+            .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
+            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber());
 
-        var faker = new Faker();
-        
-        foreach (var _ in Enumerable.Range(1, amount))
-        {
-            var client = new Client
-            {
-                FirstName = faker.Name.FirstName(),
-                LastName = faker.Name.LastName(),
-                BirthDay = faker.Date.PastDateOnly(70),
-                PhoneNumber = faker.Phone.PhoneNumber()
-            };
-            
-            dict.Add(client.PhoneNumber, client);
-        }
+        var clients = faker.Generate(amount);
 
-        return dict;
+        var clientDictionary = clients.ToDictionary(client => client.PhoneNumber);
+
+        return clientDictionary;
     }
 }
