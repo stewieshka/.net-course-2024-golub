@@ -50,21 +50,19 @@ public static class TestDataGenerator
             .RuleFor(a => a.LastName, b => b.Name.LastName())
             .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
             .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber());
-        
-        var clients = faker.Generate(amount);
-        
-        var faker2 = new Faker<Account>()
-            .RuleFor(a => a.Currency, b => b.Finance.Currency().Code)
-            .RuleFor(a => a.Amount, b => b.Finance.Amount(1000, 100_000));
-        
-        var acounts = faker2.Generate(amount);
-        
-        var dict = new Dictionary<Client, Account>();
 
-        for (var i = 0; i < clients.Count; i++)
-        {
-            dict.Add(clients[i], acounts[i]);
-        }
+        var clients = faker.Generate(amount);
+
+        var faker2 = new Faker<Account>()
+            .RuleFor(a => a.Currency,
+                b => new Currency { Code = b.Finance.Currency().Code, Name = b.Finance.Currency().Symbol })
+            .RuleFor(a => a.Amount, b => b.Finance.Amount(1000, 100_000));
+
+        var accounts = faker2.Generate(amount);
+
+        var dict = 
+            clients.Zip(accounts, (client, account) => new { client, account })
+            .ToDictionary(x => x.client, x => x.account);
 
         return dict;
     }

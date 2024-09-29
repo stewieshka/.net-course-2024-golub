@@ -5,6 +5,8 @@ namespace BankSystem.App.Tests;
 
 public class EquivalenceTests
 {
+    private static readonly Random Random = new();
+    
     [Fact]
     public void GetHashCodeNecessityPositiveTest()
     {
@@ -45,11 +47,11 @@ public class EquivalenceTests
         dict.Add(client, []);
 
         var accountList = dict[client];
-        
-        accountList.Add(new Account {Amount = 10000, Currency = "USD"});
-        accountList.Add(new Account {Amount = 15000, Currency = "RUB"});
-        accountList.Add(new Account {Amount = 20000, Currency = "EUR"});
-        
+
+        accountList.Add(new Account { Amount = 10000, Currency = new Currency { Code = "USD", Name = "Dollar" } });
+        accountList.Add(new Account { Amount = 15000, Currency = new Currency { Code = "RUB", Name = "Ruble" } });
+        accountList.Add(new Account { Amount = 20000, Currency = new Currency { Code = "EUR", Name = "Euro" } });
+
         // Act
         var accounts = dict[client];
 
@@ -63,10 +65,19 @@ public class EquivalenceTests
         // Arrange
         var list = TestDataGenerator.GenerateEmployeesList(100);
 
-        var emp = list[57];
+        var emp = list[Random.Next(list.Count)];
+
+        var newEmp = new Employee
+        {
+            FirstName = emp.FirstName,
+            LastName = emp.LastName,
+            BirthDay = emp.BirthDay,
+            PhoneNumber = emp.PhoneNumber,
+            Salary = emp.Salary
+        };
 
         // Act
-        var empFounded = list.Contains(emp);
+        var empFounded = list.Contains(newEmp);
 
         // Assert
         Assert.True(empFounded);
@@ -78,8 +89,8 @@ public class EquivalenceTests
         // Arrange
         var list = new List<Client>
         {
-            new() { FirstName = "Stepan", LastName = "Golub", PhoneNumber = "+373"},
-            new() { FirstName = "Stepan", LastName = "Golub", PhoneNumber = "+373"}
+            new() { FirstName = "Stepan", LastName = "Golub", PhoneNumber = "+373" },
+            new() { FirstName = "Stepan", LastName = "Golub", PhoneNumber = "+373" }
         };
 
 
