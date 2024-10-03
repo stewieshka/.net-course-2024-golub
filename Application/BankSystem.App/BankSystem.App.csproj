@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Domain\BankSystem.Domain\BankSystem.Domain.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\BankSystem.Data\BankSystem.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>

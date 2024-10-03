@@ -13,7 +13,10 @@ public class PeopleStorageTests
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
-        clientStorage.MyAddRange(clientList);
+        foreach (var client in clientList)
+        {
+            clientStorage.AddPerson(client);
+        }
 
         var actualYoungest = clientList.MinBy(x => x.CalculateAge());
 
@@ -32,7 +35,10 @@ public class PeopleStorageTests
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
-        clientStorage.MyAddRange(clientList);
+        foreach (var client in clientList)
+        {
+            clientStorage.AddPerson(client);
+        }
 
         var actualOldest = clientList.MaxBy(x => x.CalculateAge());
 
@@ -51,7 +57,10 @@ public class PeopleStorageTests
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
-        clientStorage.MyAddRange(clientList);
+        foreach (var client in clientList)
+        {
+            clientStorage.AddPerson(client);
+        }
 
         var actualAverage = clientList.Average(x => x.CalculateAge());
 
