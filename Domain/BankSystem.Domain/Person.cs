@@ -16,7 +16,17 @@ public class Person
         => $"{LastName} {FirstName} {MiddleName}";
 
     public int CalculateAge()
-        => DateTime.Now.Year - BirthDay.Year;
+    {
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        var age = today.Year - BirthDay.Year;
+
+        if (today < BirthDay.AddYears(age))
+        {
+            age--;
+        }
+
+        return age;
+    }
     
     public override int GetHashCode()
     {
