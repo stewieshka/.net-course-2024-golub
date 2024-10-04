@@ -20,36 +20,21 @@ public class PeopleStorage<T>
     {
         var query = _people.Keys.AsEnumerable();
 
-        if (!string.IsNullOrEmpty(firstName))
-        {
-            query = query.Where(x => x.FirstName.Contains(firstName));
-        }
-
-        if (!string.IsNullOrEmpty(lastName))
-        {
-            query = query.Where(x => x.FirstName.Contains(lastName));
-        }
-
-        if (!string.IsNullOrEmpty(phoneNumber))
-        {
-            query = query.Where(x => x.PhoneNumber == phoneNumber);
-        }
-
-        if (!string.IsNullOrEmpty(passportId))
-        {
-            query = query.Where(x => x.PassportId == passportId);
-        }
-
-        if (birthDateFrom.HasValue)
-        {
-            query = query.Where(x => x.BirthDay >= birthDateFrom.Value);
-        }
-
-        if (birthDateTo.HasValue)
-        {
-            query = query.Where(x => x.BirthDay <= birthDateTo.Value);
-        }
-
+        // хотелось бы получить комментарий по поводу этого метода расширения, ок или не ок
+        query = query
+            .WhereIf(!string.IsNullOrEmpty(firstName), 
+                x => x.FirstName.Contains(firstName!))
+            .WhereIf(!string.IsNullOrEmpty(lastName), 
+                x => x.LastName.Contains(lastName!))
+            .WhereIf(!string.IsNullOrEmpty(phoneNumber), 
+                x => x.PhoneNumber == phoneNumber)
+            .WhereIf(!string.IsNullOrEmpty(passportId), 
+                x => x.PassportId == passportId)
+            .WhereIf(birthDateFrom.HasValue, 
+                x => x.BirthDay >= birthDateFrom!.Value)
+            .WhereIf(birthDateTo.HasValue, 
+                x => x.BirthDay <= birthDateTo!.Value);
+        
         return query.ToList();
     }
 
