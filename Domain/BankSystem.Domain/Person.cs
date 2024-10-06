@@ -10,7 +10,9 @@ public class Person
 
     public string LastName { get; set; }
 
+    public string PassportId { get; set; }
     public string? MiddleName { get; set; }
+    
 
     public string GetFullName()
         => $"{LastName} {FirstName} {MiddleName}";
