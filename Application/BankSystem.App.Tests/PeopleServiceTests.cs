@@ -12,7 +12,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2010, 1, 1),
@@ -28,7 +28,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1)
@@ -43,7 +43,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -62,7 +62,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -88,7 +88,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -114,7 +114,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -144,7 +144,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -177,7 +177,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
@@ -201,7 +201,7 @@ public class PeopleServiceTests
     {
         // Arrange
         var clientStorage = new PeopleStorage<Client>();
-        var clientService = new PeopleService<Client>(clientStorage);
+        var clientService = new ClientService(clientStorage);
         
         clientService.Add(new Client
         {

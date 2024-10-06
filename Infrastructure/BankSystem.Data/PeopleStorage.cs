@@ -1,4 +1,5 @@
 using BankSystem.Domain;
+using BankSystem.Data.Extensions;
 
 namespace BankSystem.Data;
 
@@ -15,7 +16,7 @@ public class PeopleStorage<T>
         return accounts;
     }
 
-    public List<T> GetByQuery(string? firstName = null, string? lastName = null, string? phoneNumber = null,
+    public List<T> GetByQuery(string firstName = null, string? lastName = null, string? phoneNumber = null,
         string? passportId = null, DateOnly? birthDateFrom = null, DateOnly? birthDateTo = null)
     {
         var query = _people.Keys.AsEnumerable();
