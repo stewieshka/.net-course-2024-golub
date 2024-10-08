@@ -9,19 +9,19 @@ public class PeopleStorageTests
     public void MyMinBy_ShouldReturnYoungestClient_WhenCalled()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
         foreach (var client in clientList)
         {
-            clientStorage.AddPerson(client);
+            clientStorage.Add(client);
         }
 
         var actualYoungest = clientList.MinBy(x => x.CalculateAge());
 
         // Act
-        var youngest = clientStorage.MyMinBy(x => x.CalculateAge());
+        var youngest = clientStorage.Data.MinBy(x => x.Key.CalculateAge()).Key;
 
         // Assert
         Assert.Equal(actualYoungest, youngest);
@@ -31,19 +31,19 @@ public class PeopleStorageTests
     public void MyMaxBy_ShouldReturnOldestClient_WhenCalled()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
         foreach (var client in clientList)
         {
-            clientStorage.AddPerson(client);
+            clientStorage.Add(client);
         }
 
         var actualOldest = clientList.MaxBy(x => x.CalculateAge());
 
         // Act
-        var oldest = clientStorage.MyMaxBy(x => x.CalculateAge());
+        var oldest = clientStorage.Data.MaxBy(x => x.Key.CalculateAge()).Key;
 
         // Assert
         Assert.Equal(actualOldest, oldest);
@@ -53,19 +53,19 @@ public class PeopleStorageTests
     public void MyAverage_ShouldReturnAverageAge_WhenCalled()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
         foreach (var client in clientList)
         {
-            clientStorage.AddPerson(client);
+            clientStorage.Add(client);
         }
 
         var actualAverage = clientList.Average(x => x.CalculateAge());
 
         // Act
-        var average = clientStorage.MyAverage(x => x.CalculateAge());
+        var average = clientStorage.Data.Average(x => x.Key.CalculateAge());
 
         // Assert
         Assert.Equal(actualAverage, average);

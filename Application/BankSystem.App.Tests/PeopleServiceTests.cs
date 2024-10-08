@@ -11,7 +11,7 @@ public class PeopleServiceTests
     public void AddClient_ShouldThrowLowAgeException_WhenClientIsUnderage()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -27,7 +27,7 @@ public class PeopleServiceTests
     public void AddClient_ShouldThrowMyValidationException_WhenPassportIdIsNullOrEmpty()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -42,7 +42,7 @@ public class PeopleServiceTests
     public void AddClient_ShouldAddClient_WhenClientIsValid()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -61,7 +61,7 @@ public class PeopleServiceTests
     public void AddAccount_ShouldThrowMyValidationException_WhenCurrencyCodeIsEmpty()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -87,7 +87,7 @@ public class PeopleServiceTests
     public void AddAccount_ShouldThrowMyValidationException_WhenCurrencyNameIsEmpty()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -113,7 +113,7 @@ public class PeopleServiceTests
     public void AddAccount_ShouldAddAccount_WhenValidAccountProvided()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -143,7 +143,7 @@ public class PeopleServiceTests
     public void DeleteAccount_ShouldRemoveAccount_WhenAccountExists()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -176,7 +176,7 @@ public class PeopleServiceTests
     public void UpdateAccount_ShouldUpdateAccount_WhenValidDataProvided()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         var client = new Client
         {
@@ -190,7 +190,7 @@ public class PeopleServiceTests
         var currency = new Currency { Code = "RUB", Name = "Ruble" };
 
         // Act
-        clientService.Update(account, 10000, currency);
+        clientService.UpdateAccount(account, 10000, currency);
         
         // Assert
         Assert.True(account.Amount == 10000 && account.Currency.Equals(currency));
@@ -200,7 +200,7 @@ public class PeopleServiceTests
     public void GetByQuery_ShouldReturnFilteredClients_WhenFiltersAreApplied()
     {
         // Arrange
-        var clientStorage = new PeopleStorage<Client>();
+        var clientStorage = new ClientStorage();
         var clientService = new ClientService(clientStorage);
         
         clientService.Add(new Client
@@ -226,7 +226,10 @@ public class PeopleServiceTests
         });
         
         // Act
-        var count = clientService.GetByQuery(firstName: "Stepan").Count;
+        var count = clientService.Get(10, 1, 
+        [
+            x => x.FirstName == "Stepan"
+        ]).Count;
         
         // Assert
         Assert.Equal(2, count);
