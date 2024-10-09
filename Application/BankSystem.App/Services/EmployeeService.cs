@@ -35,6 +35,16 @@ public class EmployeeService
 
     public void Update(Employee employee)
     {
+        if (employee.CalculateAge() < 18)
+        {
+            throw new LowAgeException();
+        }
+
+        if (string.IsNullOrEmpty(employee.PassportId))
+        {
+            throw new MyValidationException(nameof(employee.PassportId));
+        }
+        
         _storage.Update(employee);
     }
 

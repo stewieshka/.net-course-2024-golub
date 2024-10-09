@@ -11,7 +11,8 @@ public static class TestDataGenerator
             .RuleFor(a => a.FirstName, b => b.Name.FirstName())
             .RuleFor(a => a.LastName, b => b.Name.LastName())
             .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
-            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber());
+            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber())
+            .RuleFor(a => a.PassportId, b => b.Person.Email);
 
         return faker.Generate(amount);
     }
@@ -23,7 +24,8 @@ public static class TestDataGenerator
             .RuleFor(a => a.LastName, b => b.Name.LastName())
             .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
             .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber())
-            .RuleFor(a => a.Salary, b => b.Finance.Amount(1000, 100_000));
+            .RuleFor(a => a.Salary, b => b.Finance.Amount(1000, 100_000))
+            .RuleFor(a => a.PassportId, b => b.Person.Email);
 
         return faker.Generate(amount);
     }
@@ -34,7 +36,8 @@ public static class TestDataGenerator
             .RuleFor(a => a.FirstName, b => b.Name.FirstName())
             .RuleFor(a => a.LastName, b => b.Name.LastName())
             .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
-            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber());
+            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber())
+            .RuleFor(a => a.PassportId, b => b.Person.Email);
 
         var clients = faker.Generate(amount);
 
@@ -49,7 +52,8 @@ public static class TestDataGenerator
             .RuleFor(a => a.FirstName, b => b.Name.FirstName())
             .RuleFor(a => a.LastName, b => b.Name.LastName())
             .RuleFor(a => a.BirthDay, b => b.Date.PastDateOnly(70))
-            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber());
+            .RuleFor(a => a.PhoneNumber, b => b.Phone.PhoneNumber())
+            .RuleFor(a => a.PassportId, b => b.Person.Email);
 
         var clients = faker.Generate(amount);
 

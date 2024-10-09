@@ -5,11 +5,11 @@ namespace BankSystem.Data;
 
 public class ClientStorage : IClientStorage
 {
-    public Dictionary<Client, List<Account>> Data { get; set; } = [];
+    private readonly Dictionary<Client, List<Account>> _data = [];
 
     public List<Client> Get(int pageSize, int pageNumber, List<Func<Client, bool>> filters)
     {
-        var query = Data.Keys.AsEnumerable();
+        var query = _data.Keys.AsEnumerable();
         
         query = filters.Aggregate(query, (current, filter) => current.Where(filter));
 
@@ -22,40 +22,38 @@ public class ClientStorage : IClientStorage
 
     public void Add(Client item)
     {
-        Data.Add(item, []);
+        _data.Add(item, []);
     }
 
     public void Update(Client item)
     {
-        var oldClient = Data.FirstOrDefault(x => x.Key.PhoneNumber == item.PassportId);
+        var accounts = _data[item];
 
-        Data.Remove(oldClient.Key);
+        _data.Remove(item);
 
-        Data.Add(item, oldClient.Value);
+        _data.Add(item, accounts);
     }
 
     public void Delete(Client item)
     {
-        Data.Remove(item);
+        _data.Remove(item);
     }
 
-    public List<Account> GetAccounts(Client client)
+    public IReadOnlyList<Account> GetAccounts(Client client)
     {
-        var accounts = Data[client];
-
-        return accounts;
+        return _data[client];
     }
 
     public void AddAccount(Client client, Account account)
     {
-        var accounts = Data[client];
+        var accounts = _data[client];
         
         accounts.Add(account);
     }
 
     public void UpdateAccount(Client client, Account oldAccount, Account newAccount)
     {
-        var accounts = Data[client];
+        var accounts = _data[client];
 
         accounts.Remove(oldAccount);
         
@@ -64,10 +62,25 @@ public class ClientStorage : IClientStorage
 
     public void DeleteAccount(Client client, Account account)
     {
-        var accounts = Data[client];
+        var accounts = _data[client];
 
         accounts.Remove(account);
     }
 
-    public int Count() => Data.Count;
+    public int Count() => _data.Count;
+
+    public Client? MinBy<T>(Func<Client, T> selector) where T : IComparable<T>
+    {
+        return _data.Keys.MinBy(selector);
+    }
+    
+    public Client? MaxBy<T>(Func<Client, T> selector) where T : IComparable<T>
+    {
+        return _data.Keys.MaxBy(selector);
+    }
+
+    public double Average(Func<Client, double> selector)
+    {
+        return _data.Keys.Average(selector);
+    }
 }

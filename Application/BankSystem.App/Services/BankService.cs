@@ -23,7 +23,7 @@ public static class BankService
     public static void AddBonus<T>(T person)
         where T : Client
     {
-        person.BonusCount++;
+        person.BonusAmount++;
     }
 
     public static void AddToBlackList<T>(T person)

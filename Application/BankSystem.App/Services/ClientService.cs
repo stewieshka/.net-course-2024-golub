@@ -18,7 +18,7 @@ public class ClientService
         return _storage.Get(pageSize, pageNumber, filters);
     }
     
-    public List<Account> GetAccounts(Client client)
+    public IReadOnlyList<Account> GetAccounts(Client client)
     {
         return _storage.GetAccounts(client);
     }
@@ -75,6 +75,16 @@ public class ClientService
 
     public void Update(Client client)
     {
+        if (client.CalculateAge() < 18)
+        {
+            throw new LowAgeException();
+        }
+
+        if (string.IsNullOrEmpty(client.PassportId))
+        {
+            throw new MyValidationException(nameof(client.PassportId));
+        }
+        
         _storage.Update(client);
     }
 

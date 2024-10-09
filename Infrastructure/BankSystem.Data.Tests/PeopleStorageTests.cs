@@ -21,7 +21,7 @@ public class PeopleStorageTests
         var actualYoungest = clientList.MinBy(x => x.CalculateAge());
 
         // Act
-        var youngest = clientStorage.Data.MinBy(x => x.Key.CalculateAge()).Key;
+        var youngest = clientStorage.MinBy(x => x.CalculateAge());
 
         // Assert
         Assert.Equal(actualYoungest, youngest);
@@ -43,7 +43,7 @@ public class PeopleStorageTests
         var actualOldest = clientList.MaxBy(x => x.CalculateAge());
 
         // Act
-        var oldest = clientStorage.Data.MaxBy(x => x.Key.CalculateAge()).Key;
+        var oldest = clientStorage.MaxBy(x => x.CalculateAge());
 
         // Assert
         Assert.Equal(actualOldest, oldest);
@@ -65,7 +65,7 @@ public class PeopleStorageTests
         var actualAverage = clientList.Average(x => x.CalculateAge());
 
         // Act
-        var average = clientStorage.Data.Average(x => x.Key.CalculateAge());
+        var average = clientStorage.Average(x => x.CalculateAge());
 
         // Assert
         Assert.Equal(actualAverage, average);

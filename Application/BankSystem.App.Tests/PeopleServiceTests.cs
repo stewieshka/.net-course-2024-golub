@@ -134,7 +134,7 @@ public class PeopleServiceTests
 
         // Act
         clientService.AddAccount(client, account);
-
+        
         // Assert
         Assert.Equal(2, clientService.GetAccounts(client).Count);
     }
@@ -205,22 +205,22 @@ public class PeopleServiceTests
         
         clientService.Add(new Client
         {
-            PassportId = "id",
+            PassportId = "id1",
             BirthDay = new DateOnly(2001, 1, 1),
             FirstName = "Stepan",
-            LastName = "Golub"
+            LastName = "Golub",
         });
         
         clientService.Add(new Client
         {
-            PassportId = "id",
+            PassportId = "id2",
             BirthDay = new DateOnly(2000, 1, 1),
             FirstName = "Stepan"
         });
         
         clientService.Add(new Client
         {
-            PassportId = "id",
+            PassportId = "id3",
             BirthDay = new DateOnly(2000, 1, 1),
             FirstName = "Alex"
         });
