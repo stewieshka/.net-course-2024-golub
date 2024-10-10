@@ -1,14 +1,24 @@
 using BankSystem.App.Exceptions;
-using BankSystem.App.Services;
-using BankSystem.Data;
+using BankSystem.App.Interfaces;
 using BankSystem.Domain;
 
-public class ClientService : PeopleService<Client>
-{
-    public ClientService(PeopleStorage<Client> storage)
-        : base(storage) {}
+namespace BankSystem.App.Services;
 
-    public List<Account> GetAccounts(Client client)
+public class ClientService
+{
+    private readonly IClientStorage _storage;
+
+    public ClientService(IClientStorage storage)
+    {
+        _storage = storage;
+    }
+
+    public List<Client> Get(int pageSize, int pageNumber, List<Func<Client, bool>> filters)
+    {
+        return _storage.Get(pageSize, pageNumber, filters);
+    }
+    
+    public IReadOnlyList<Account> GetAccounts(Client client)
     {
         return _storage.GetAccounts(client);
     }
@@ -25,8 +35,8 @@ public class ClientService : PeopleService<Client>
             throw new MyValidationException(nameof(client.PassportId));
         }
         
-        _storage.AddPerson(client);
-        _storage.AddAccountToPerson(client, new Account
+        _storage.Add(client);
+        _storage.AddAccount(client, new Account
         {
             Amount = 0,
             Currency = new Currency
@@ -49,7 +59,7 @@ public class ClientService : PeopleService<Client>
             throw new MyValidationException(nameof(account.Currency.Code));
         }
         
-        _storage.AddAccountToPerson(client, account);
+        _storage.AddAccount(client, account);
     }
 
     public void DeleteAccount(Client client, Account account)
@@ -57,9 +67,29 @@ public class ClientService : PeopleService<Client>
         _storage.DeleteAccount(client, account);
     }
 
-    public void Update(Account account, decimal? amount = null, Currency? currency = null)
+    public void UpdateAccount(Account account, decimal? amount = null, Currency? currency = null)
     {
         account.Amount = amount ?? account.Amount;
         account.Currency = currency ?? account.Currency;
+    }
+
+    public void Update(Client client)
+    {
+        if (client.CalculateAge() < 18)
+        {
+            throw new LowAgeException();
+        }
+
+        if (string.IsNullOrEmpty(client.PassportId))
+        {
+            throw new MyValidationException(nameof(client.PassportId));
+        }
+        
+        _storage.Update(client);
+    }
+
+    public void Delete(Client client)
+    {
+        _storage.Delete(client);
     }
 }

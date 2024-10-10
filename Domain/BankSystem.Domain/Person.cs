@@ -32,7 +32,7 @@ public class Person
     
     public override int GetHashCode()
     {
-        return HashCode.Combine(FirstName, LastName, PhoneNumber);
+        return PassportId.GetHashCode();
     }
     
     public override bool Equals(object? obj)
@@ -42,10 +42,8 @@ public class Person
 
     public bool Equals(Person? person)
     {
-        return person is not null 
-               && person.FirstName == FirstName 
-               && person.LastName == LastName 
-               && person.PhoneNumber == PhoneNumber;
+        return person is not null
+               && person.PassportId == PassportId;
     }
 
     public static bool operator ==(Person? left, Person? right)
