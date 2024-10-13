@@ -1,8 +1,9 @@
 create table if not exists client
 (
-    passport_id  text
+    id           uuid
         constraint client_pk
             primary key,
+    passport_id  text      not null,
     first_name   text      not null,
     last_name    text      not null,
     middle_name  text,
@@ -12,9 +13,10 @@ create table if not exists client
 
 create table if not exists employee
 (
-    passport_id  text
+    id           uuid
         constraint employee_pk
             primary key,
+    passport_id  text      not null,
     first_name   text      not null,
     last_name    text      not null,
     middle_name  text,
@@ -24,19 +26,20 @@ create table if not exists employee
 
 create table if not exists currency
 (
-    code varchar(3) not null
+    id   uuid
         constraint currency_pk
             primary key,
+    code varchar(3) not null,
     name text       not null
 );
 
 create table if not exists account
 (
-    currency_code      varchar(3) not null
-        constraint account_currency_code_fk
+    currency_id uuid    not null
+        constraint account_currency_id_fk
             references currency,
-    amount             integer    not null,
-    client_passport_id text       not null
-        constraint account_client_passport_id_fk
+    amount      decimal not null,
+    client_id   uuid    not null
+        constraint account_client_id_fk
             references client
 );
