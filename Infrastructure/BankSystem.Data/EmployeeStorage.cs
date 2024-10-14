@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain;
 
@@ -5,11 +6,16 @@ namespace BankSystem.Data;
 
 public class EmployeeStorage : IStorage<Employee>
 {
-    private readonly List<Employee> _employees = [];
+    private readonly BankSystemDbContext _context = new();
 
-    public List<Employee> Get(int pageSize, int pageNumber, List<Func<Employee, bool>> filters)
+    public Employee GetById(Guid id)
     {
-        var query = _employees.AsEnumerable();
+        return _context.Employees.FirstOrDefault(x => x.Id == id);
+    }
+
+    public List<Employee> Get(int pageSize, int pageNumber, List<Expression<Func<Employee, bool>>> filters)
+    {
+        var query = _context.Employees.AsQueryable();
         
         query = filters.Aggregate(query, (current, filter) => current.Where(filter));
 
@@ -22,20 +28,21 @@ public class EmployeeStorage : IStorage<Employee>
 
     public void Add(Employee item)
     {
-        _employees.Add(item);
+        _context.Employees.Add(item);
+
+        _context.SaveChanges();
     }
 
     public void Update(Employee item)
     {
-        var oldEmployee = _employees.FirstOrDefault(x => x.PassportId == item.PassportId);
-
-        _employees.Remove(oldEmployee);
-        
-        _employees.Add(item);
+        _context.Employees.Update(item);
+        _context.SaveChanges();
     }
 
     public void Delete(Employee item)
     {
-        _employees.Remove(item);
+        _context.Employees.Remove(item);
+
+        _context.SaveChanges();
     }
 }

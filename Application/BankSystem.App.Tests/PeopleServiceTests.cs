@@ -47,7 +47,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         // Act
@@ -66,7 +69,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         clientService.Add(client);
@@ -92,7 +98,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         clientService.Add(client);
@@ -118,7 +127,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         clientService.Add(client);
@@ -148,7 +160,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         clientService.Add(client);
@@ -166,7 +181,7 @@ public class PeopleServiceTests
         clientService.AddAccount(client, account);
 
         // Act
-        clientService.DeleteAccount(client, account);
+        clientService.DeleteAccount(account);
 
         // Assert
         Assert.Single(clientService.GetAccounts(client));
@@ -181,7 +196,10 @@ public class PeopleServiceTests
         var client = new Client
         {
             BirthDay = new DateOnly(2000, 1, 1),
-            PassportId = "id"
+            PassportId = "id",
+            FirstName = "firstName",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         };
 
         clientService.Add(client);
@@ -189,8 +207,11 @@ public class PeopleServiceTests
         var account = clientService.GetAccounts(client).First();
         var currency = new Currency { Code = "RUB", Name = "Ruble" };
 
+        account.Currency = currency;
+        account.Amount = 10000;
+
         // Act
-        clientService.UpdateAccount(account, 10000, currency);
+        clientService.UpdateAccount(account);
         
         // Assert
         Assert.True(account.Amount == 10000 && account.Currency.Equals(currency));
@@ -209,20 +230,25 @@ public class PeopleServiceTests
             BirthDay = new DateOnly(2001, 1, 1),
             FirstName = "Stepan",
             LastName = "Golub",
+            PhoneNumber = "+373"
         });
         
         clientService.Add(new Client
         {
             PassportId = "id2",
             BirthDay = new DateOnly(2000, 1, 1),
-            FirstName = "Stepan"
+            FirstName = "Stepan",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         });
         
         clientService.Add(new Client
         {
             PassportId = "id3",
             BirthDay = new DateOnly(2000, 1, 1),
-            FirstName = "Alex"
+            FirstName = "Alex",
+            LastName = "lastName",
+            PhoneNumber = "+373"
         });
         
         // Act

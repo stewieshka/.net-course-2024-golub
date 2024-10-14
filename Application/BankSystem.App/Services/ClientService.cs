@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain;
@@ -13,7 +14,7 @@ public class ClientService
         _storage = storage;
     }
 
-    public List<Client> Get(int pageSize, int pageNumber, List<Func<Client, bool>> filters)
+    public List<Client> Get(int pageSize, int pageNumber, List<Expression<Func<Client, bool>>> filters)
     {
         return _storage.Get(pageSize, pageNumber, filters);
     }
@@ -62,15 +63,14 @@ public class ClientService
         _storage.AddAccount(client, account);
     }
 
-    public void DeleteAccount(Client client, Account account)
+    public void DeleteAccount(Account account)
     {
-        _storage.DeleteAccount(client, account);
+        _storage.DeleteAccount(account);
     }
 
-    public void UpdateAccount(Account account, decimal? amount = null, Currency? currency = null)
+    public void UpdateAccount(Account account)
     {
-        account.Amount = amount ?? account.Amount;
-        account.Currency = currency ?? account.Currency;
+        _storage.UpdateAccount(account);
     }
 
     public void Update(Client client)
