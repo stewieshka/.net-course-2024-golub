@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain;
@@ -13,7 +14,7 @@ public class EmployeeService
         _storage = storage;
     }
     
-    public List<Employee> Get(int pageSize, int pageNumber, List<Func<Employee, bool>> filters)
+    public List<Employee> Get(int pageSize, int pageNumber, List<Expression<Func<Employee, bool>>> filters)
     {
         return _storage.Get(pageSize, pageNumber, filters);
     }

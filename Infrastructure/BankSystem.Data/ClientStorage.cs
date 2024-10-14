@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain;
 
@@ -5,15 +6,21 @@ namespace BankSystem.Data;
 
 public class ClientStorage : IClientStorage
 {
-    private readonly Dictionary<Client, List<Account>> _data = [];
+    private readonly BankSystemDbContext _context = new();
 
-    public List<Client> Get(int pageSize, int pageNumber, List<Func<Client, bool>> filters)
+    public Client GetById(Guid id)
     {
-        var query = _data.Keys.AsEnumerable();
+        return _context.Clients.FirstOrDefault(x => x.Id == id);
+    }
+    
+    public List<Client> Get(int pageSize, int pageNumber, List<Expression<Func<Client, bool>>> filters)
+    {
+        var query = _context.Clients.AsQueryable();
         
         query = filters.Aggregate(query, (current, filter) => current.Where(filter));
 
         query = query
+            .OrderBy(x => x.LastName)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize);
 
@@ -22,65 +29,65 @@ public class ClientStorage : IClientStorage
 
     public void Add(Client item)
     {
-        _data.Add(item, []);
+        _context.Clients.Add(item);
+
+        _context.SaveChanges();
     }
 
     public void Update(Client item)
     {
-        var accounts = _data[item];
-
-        _data.Remove(item);
-
-        _data.Add(item, accounts);
+        _context.Clients.Update(item);
+        _context.SaveChanges();
     }
 
     public void Delete(Client item)
     {
-        _data.Remove(item);
+        _context.Clients.Remove(item);
+
+        _context.SaveChanges();
     }
 
     public IReadOnlyList<Account> GetAccounts(Client client)
     {
-        return _data[client];
+        return _context.Accounts.Where(x => x.ClientId == client.Id).ToList();
     }
 
     public void AddAccount(Client client, Account account)
     {
-        var accounts = _data[client];
-        
-        accounts.Add(account);
+        account.ClientId = client.Id;
+
+        _context.Accounts.Add(account);
+
+        _context.SaveChanges();
     }
 
-    public void UpdateAccount(Client client, Account oldAccount, Account newAccount)
+    public void UpdateAccount(Account item)
     {
-        var accounts = _data[client];
-
-        accounts.Remove(oldAccount);
-        
-        accounts.Add(newAccount);
+        _context.Accounts.Update(item);
+        _context.SaveChanges();
     }
 
-    public void DeleteAccount(Client client, Account account)
+    public void DeleteAccount(Account account)
     {
-        var accounts = _data[client];
+        _context.Accounts.Remove(account);
 
-        accounts.Remove(account);
+        _context.SaveChanges();
     }
 
-    public int Count() => _data.Count;
+    public int Count() => _context.Clients.Count();
 
     public Client? MinBy<T>(Func<Client, T> selector) where T : IComparable<T>
     {
-        return _data.Keys.MinBy(selector);
+        return _context.Clients.MinBy(selector);
     }
     
     public Client? MaxBy<T>(Func<Client, T> selector) where T : IComparable<T>
     {
-        return _data.Keys.MaxBy(selector);
+        return _context.Clients.MaxBy(selector);
     }
 
     public double Average(Func<Client, double> selector)
     {
-        return _data.Keys.Average(selector);
+        return _context.Clients.Average(selector);
     }
 }
