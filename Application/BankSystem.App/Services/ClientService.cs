@@ -7,21 +7,21 @@ namespace BankSystem.App.Services;
 
 public class ClientService
 {
-    private readonly IClientStorage _storage;
+    private readonly IClientStorageDb _storageDb;
 
-    public ClientService(IClientStorage storage)
+    public ClientService(IClientStorageDb storageDb)
     {
-        _storage = storage;
+        _storageDb = storageDb;
     }
 
     public List<Client> Get(int pageSize, int pageNumber, List<Expression<Func<Client, bool>>> filters)
     {
-        return _storage.Get(pageSize, pageNumber, filters);
+        return _storageDb.Get(pageSize, pageNumber, filters);
     }
     
     public IReadOnlyList<Account> GetAccounts(Client client)
     {
-        return _storage.GetAccounts(client);
+        return _storageDb.GetAccounts(client);
     }
     
     public void Add(Client client)
@@ -36,8 +36,8 @@ public class ClientService
             throw new MyValidationException(nameof(client.PassportId));
         }
         
-        _storage.Add(client);
-        _storage.AddAccount(client, new Account
+        _storageDb.Add(client);
+        _storageDb.AddAccount(client, new Account
         {
             Amount = 0,
             Currency = new Currency
@@ -60,17 +60,17 @@ public class ClientService
             throw new MyValidationException(nameof(account.Currency.Code));
         }
         
-        _storage.AddAccount(client, account);
+        _storageDb.AddAccount(client, account);
     }
 
     public void DeleteAccount(Account account)
     {
-        _storage.DeleteAccount(account);
+        _storageDb.DeleteAccount(account);
     }
 
     public void UpdateAccount(Account account)
     {
-        _storage.UpdateAccount(account);
+        _storageDb.UpdateAccount(account);
     }
 
     public void Update(Client client)
@@ -85,11 +85,11 @@ public class ClientService
             throw new MyValidationException(nameof(client.PassportId));
         }
         
-        _storage.Update(client);
+        _storageDb.Update(client);
     }
 
     public void Delete(Client client)
     {
-        _storage.Delete(client);
+        _storageDb.Delete(client);
     }
 }

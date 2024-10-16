@@ -19,7 +19,5 @@ public class BankSystemDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=bank;Username=admin;Password=admin");
-
-        // optionsBuilder.UseInMemoryDatabase("bank");
     }
 }

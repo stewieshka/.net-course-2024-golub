@@ -9,7 +9,7 @@ public class PeopleStorageTests
     public void MyMinBy_ShouldReturnYoungestClient_WhenCalled()
     {
         // Arrange
-        var clientStorage = new ClientStorage();
+        var clientStorage = new ClientStorageDb();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
@@ -31,7 +31,7 @@ public class PeopleStorageTests
     public void MyMaxBy_ShouldReturnOldestClient_WhenCalled()
     {
         // Arrange
-        var clientStorage = new ClientStorage();
+        var clientStorage = new ClientStorageDb();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
@@ -53,7 +53,7 @@ public class PeopleStorageTests
     public void MyAverage_ShouldReturnAverageAge_WhenCalled()
     {
         // Arrange
-        var clientStorage = new ClientStorage();
+        var clientStorage = new ClientStorageDb();
 
         var clientList = TestDataGenerator.GenerateClientsList(100);
 
