@@ -4,7 +4,7 @@ using BankSystem.Domain;
 
 namespace BankSystem.Data;
 
-public class EmployeeStorage : IStorage<Employee>
+public class EmployeeStorageDb : IStorageDb<Employee>
 {
     private readonly BankSystemDbContext _context = new();
 
