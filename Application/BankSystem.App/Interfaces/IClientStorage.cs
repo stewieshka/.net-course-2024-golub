@@ -1,4 +1,3 @@
-
 using BankSystem.Domain;
 
 namespace BankSystem.App.Interfaces;

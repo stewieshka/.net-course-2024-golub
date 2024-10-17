@@ -2,6 +2,7 @@ namespace BankSystem.Domain;
 
 public class Person
 {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public DateOnly BirthDay { get; set; }
     
     public string PhoneNumber { get; set; }

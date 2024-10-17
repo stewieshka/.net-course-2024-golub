@@ -37,7 +37,7 @@ public class EquivalenceTests
     public void AddClientsAccounts_WhenClientHasMultipleAccounts_ShouldReturnAllAccounts()
     {
         // Arrange
-        var clientStorage = new ClientStorage();
+        var clientStorage = new ClientStorageDb();
         var clientService = new ClientService(clientStorage);
 
         var client = new Client

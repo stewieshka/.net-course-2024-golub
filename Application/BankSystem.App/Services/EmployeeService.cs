@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using BankSystem.App.Exceptions;
 using BankSystem.App.Interfaces;
 using BankSystem.Domain;
@@ -6,16 +7,16 @@ namespace BankSystem.App.Services;
 
 public class EmployeeService
 {
-    private readonly IStorage<Employee> _storage;
+    private readonly IStorageDb<Employee> _storageDb;
 
-    public EmployeeService(IStorage<Employee> storage)
+    public EmployeeService(IStorageDb<Employee> storageDb)
     {
-        _storage = storage;
+        _storageDb = storageDb;
     }
     
-    public List<Employee> Get(int pageSize, int pageNumber, List<Func<Employee, bool>> filters)
+    public List<Employee> Get(int pageSize, int pageNumber, List<Expression<Func<Employee, bool>>> filters)
     {
-        return _storage.Get(pageSize, pageNumber, filters);
+        return _storageDb.Get(pageSize, pageNumber, filters);
     }
     
     public void Add(Employee employee)
@@ -30,7 +31,7 @@ public class EmployeeService
             throw new MyValidationException(nameof(employee.PassportId));
         }
         
-        _storage.Add(employee);
+        _storageDb.Add(employee);
     }
 
     public void Update(Employee employee)
@@ -45,11 +46,11 @@ public class EmployeeService
             throw new MyValidationException(nameof(employee.PassportId));
         }
         
-        _storage.Update(employee);
+        _storageDb.Update(employee);
     }
 
     public void Delete(Employee employee)
     {
-        _storage.Delete(employee);
+        _storageDb.Delete(employee);
     }
 }
