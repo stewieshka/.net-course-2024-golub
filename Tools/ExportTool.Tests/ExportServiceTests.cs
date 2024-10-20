@@ -19,11 +19,10 @@ public class ExportServiceTests
         context.SaveChanges();
 
         const string fileName = "test1.csv";
-
-        // Arrange
         
-        ExportService.ExportCsv<Client>(25, fileName);
-
+        // Arrange
+        ExportService.ExportCsv(context.Clients.Take(25).ToArray(), Path.Combine(Environment.CurrentDirectory, fileName));
+        
         using var streamReader = new StreamReader(
             Path.Combine(Environment.CurrentDirectory, fileName));
 
@@ -42,13 +41,14 @@ public class ExportServiceTests
         const string fileName = "test1.csv";
         
         // Arrange
-        ExportService.ImportCsv<Client>(fileName);
+        var list = ExportService.ImportCsv<Client>(
+            Path.Combine(Environment.CurrentDirectory, fileName));
 
-        var list = context.Clients
-            .Take(25)
-            .ToList();
+        context.Clients.AddRange(list);
 
+        context.SaveChanges();
+        
         // Assert
-        Assert.True(list.Count != 0);
+        Assert.True(context.Clients.Count() == 25);
     }
 }
