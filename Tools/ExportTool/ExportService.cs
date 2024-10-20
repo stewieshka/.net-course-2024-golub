@@ -1,21 +1,14 @@
 using System.Globalization;
-using BankSystem.Data;
 using CsvHelper;
 
 namespace ExportTool;
 
 public static class ExportService
 {
-    public static void ExportCsv<T>(int limit, string fileName)
+    public static void ExportCsv<T>(IList<T> list, string fileName)
         where T : class
     {
         var path = Path.Combine(Environment.CurrentDirectory, fileName);
-
-        using var context = new BankSystemDbContext();
-
-        var list = context.Set<T>()
-            .Take(limit)
-            .ToList();
 
         using var streamWriter = new StreamWriter(path);
 
@@ -24,7 +17,7 @@ public static class ExportService
         csvWriter.WriteRecords(list);
     }
 
-    public static void ImportCsv<T>(string fileName)
+    public static List<T> ImportCsv<T>(string fileName)
         where T : class
     {
         var path = Path.Combine(Environment.CurrentDirectory, fileName);
@@ -35,10 +28,6 @@ public static class ExportService
 
         var list = csvReader.GetRecords<T>().ToList();
 
-        using var context = new BankSystemDbContext();
-
-        context.Set<T>().AddRange(list);
-
-        context.SaveChanges();
+        return list;
     }
 }
