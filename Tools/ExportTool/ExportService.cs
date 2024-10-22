@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using CsvHelper;
 
 namespace ExportTool;
@@ -23,6 +24,20 @@ public static class ExportService
         using var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture);
 
         var list = csvReader.GetRecords<T>().ToList();
+
+        return list;
+    }
+    
+    public static void ExportJson<T>(IList<T> list, string filePath)
+    {
+        var json = JsonSerializer.Serialize(list);
+        
+        File.WriteAllText(filePath, json);
+    }
+
+    public static List<T> ImportJson<T>(string filePath)
+    {
+        var list = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filePath));
 
         return list;
     }
