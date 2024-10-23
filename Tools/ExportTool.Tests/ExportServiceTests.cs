@@ -51,4 +51,33 @@ public class ExportServiceTests
         // Assert
         Assert.True(context.Clients.Count() == 25);
     }
+    
+    [Fact]
+    public void ExportJson_ShouldCreateJsonFileWithClients_WhenCalled()
+    {
+        // Act
+        var clients = TestDataGenerator.GenerateClientsList(10);
+        
+        var filePath = Path.Combine(Environment.CurrentDirectory, "test1.json");
+        
+        // Arrange
+        ExportService.ExportJson(clients, filePath);
+        
+        // Assert
+        Assert.True(File.ReadAllText(filePath).Length > 0);
+    }
+
+    [Fact]
+    public void ImportJson_ShouldDeserializeClientsJsonFile_WhenCalled()
+    {
+        // Act
+        var filePath = Path.Combine(Environment.CurrentDirectory, "test1.json");
+        
+        // Arrange
+
+        var clients = ExportService.ImportJson<Client>(filePath);
+
+        // Assert
+        Assert.True(clients.Count == 10);
+    }
 }
